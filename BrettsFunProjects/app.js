@@ -16,8 +16,6 @@ app.use(session({secret:'Keep it secret' //creates session secret and parameters
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
-    app.set('view engine', 'ejs');
-
     app.use('/assets', express.static('assets'));
 
 
@@ -36,7 +34,7 @@ app.use(session({secret:'Keep it secret' //creates session secret and parameters
             "r": req.session,
             qs: req.query
         }
-        res.render('login', {data: data});
+        res.render('login.ejs', {data: data});
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
