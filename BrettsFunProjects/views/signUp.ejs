@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+
+    <title>Chat Box</title><!--Title of each individual page-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
+    <link rel='stylesheet' type="text/css" href='../assets/index.css' />
+
+
+</head>
+
+<body>
+<main>
+    <%- include('partials/nav.ejs') %>
+    <div id="content">
+        <img class="menuLogo2" src="assets/images/SignUp.gif" alt="MovieScope">
+
+        <form class="centerPostForm" action="/c" method="post">
+            <label for="userID">Username:</label><br>
+            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="bmlucas"><br>
+            <label for="password">password:</label><br>
+            <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder="password"><br>
+            <label for="password">password:</label><br>
+            <input type="password" id="password" name="password" value="<%= data.qs.firstN%>" placeholder="password"><br>
+            <label for="password">password:</label><br>
+            <input type="password" id="password" name="password" value="<%= data.qs.lastN%>" placeholder="password"><br>
+            <label for="password">password:</label><br>
+            <input type="password" id="password" name="password" value="<%= data.qs.email%>" placeholder="password"><br><br>
+            <input class="button" type="submit" value="Submit">
+        </form>
+
+
+    </div><br><br>
+</main>
+
+<%- include('partials/footer.ejs') %>
+
+</body>

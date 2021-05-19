@@ -1,0 +1,25 @@
+
+<div id="mainMenu">
+    <%if((typeof data.r !== 'undefined' && data.r.loggedIn === true)){%>
+        <ul>
+            <li class="menuLogo"><a class="LogoMenuList" href="/"><img class="FLogo" src="assets/images/MainImage.PNG" alt="MovieScope"></a></li>
+            <li><a class="menuList" href="/logOut">Log Out</a></li>
+        </ul>
+        <hr class="menuHR">
+        <ul class="menuConnect">
+            <li class="left"><a class="menuConnectli" href="#">About</a></li>
+            <li class="menuConnectliUser"><%=data.r.userID%></li>
+        </ul>
+
+<%}else{%>
+    <ul>
+        <li class="menuLogo"><a class="LogoMenuList" href="/"><img class="FLogo" src="assets/images/MainImage.PNG" alt="MovieScope"></a></li>
+        <li><a class="menuList" href="/login">Login</a></li>
+        <li><a class="menuList" href="/signUp">Sign Up</a></li>
+    </ul>
+    <hr class="menuHR">
+    <ul class="menuConnect">
+        <li class="left"><a class="menuConnectli" href="#">About</a></li>
+    </ul>
+    <%}%>
+</div>
