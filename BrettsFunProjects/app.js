@@ -24,7 +24,7 @@ app.use(session({secret:'Keep it secret' //creates session secret and parameters
             qs: req.query,
             "r": req.session
         }
-        res.render('home', {data: data});
+        res.render('home.ejs', {data: data});
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
