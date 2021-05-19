@@ -24,7 +24,7 @@ app.use(session({secret:'Keep it secret' //creates session secret and parameters
             qs: req.query,
             "r": req.session
         }
-        res.render('home.ejs', {data: data});
+        res.render('/home', {data: data});
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
@@ -34,7 +34,7 @@ app.use(session({secret:'Keep it secret' //creates session secret and parameters
             "r": req.session,
             qs: req.query
         }
-        res.render('login.ejs', {data: data});
+        res.render('login', {data: data});
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
