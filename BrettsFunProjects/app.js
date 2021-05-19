@@ -50,10 +50,8 @@ app.use(session({secret:'Keep it secret' //creates session secret and parameters
     });
 
 
-    app.listen(8082, function(){
-
-        console.log("Listening to Port 8082..")
-    });
+    app.listen(process.env.PORT || 5000)
+//console.log("Listening for Port..")
 
 
 
