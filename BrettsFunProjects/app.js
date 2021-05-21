@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
 app.set('view engine', 'ejs');
+const model = require("./Models/UserModel")
 app.use('/assets', express.static('assets'));
 fs = require('fs');
 //const model = require("../Milestone3/Models/userModel");
@@ -44,6 +45,35 @@ db.once('open', function() {
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
+    app.get('/profile', function (req, res) {
+        Users.exists({ userID: req.session.userID}, function(err, result) {
+            //find username and password as well as check if it exists.
+            if (result === false) {
+                console.log("Username not found in database")
+                res.redirect('/login');//does not exist reroute to /login URL
+            }
+            if (result === true) {
+                console.log("User name found in Database")
+                Users.findOne({userID: req.session.userID}, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result.firstN)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "result": result
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+
+        })
+    });
+
     app.get('/login', function (req, res) {
 
         let data = {
@@ -65,11 +95,17 @@ db.once('open', function() {
 
 app.post('/c', urlencodedParser, function (req, res){
 
-        Users.exists({ userID: req.body.userID }, function(err, result) {
+        Users.exists({userID: req.body.userID}, function(err, result) {
             if (result === false) {
-                console.log("Exists?:"+result)
+                console.log("Exists?:"+ result)
 
-                const temp = new Users({ userID : req.body.userID, password: req.body.password, firstN: req.body.firstN, lastN: req.body.firstN, email: req.body.email});
+                const temp = new Users({
+                    userID: req.body.userID,
+                    password: req.body.password,
+                    firstN: req.body.firstN,
+                    lastN: req.body.lastN,
+                    email: req.body.email
+                });
                 temp.save(function (err, temp) {
                     if (err) return console.error(err);
                     console.log(temp);
@@ -82,7 +118,7 @@ app.post('/c', urlencodedParser, function (req, res){
                 var v = 2;
             }
             let data = {
-                "u": req.body,
+                qs: req.body,
                 "v": v,
                 "r": req.session
             }
@@ -150,7 +186,7 @@ app.get('/authenticate', function (req, res){
 
         if(req.session.loggedIn)
         {
-            res.redirect('/');  //if logged in then go to /connect URL where the nav.ejs will have logged in functionality
+            res.redirect('/profile');  //if logged in then go to /connect URL where the nav.ejs will have logged in functionality
         }
         else
             res.redirect('/login'); //if any other answer redirect to /login URL

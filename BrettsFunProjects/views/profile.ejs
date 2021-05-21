@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Box</title>
+    <link rel='stylesheet' type="text/css" href='../assets/index.css' />
+
+</head>
+
+
+<main>
+    <div id="content">
+        <%- include('partials/nav.ejs') %>
+        <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
+        <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+        <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%></h2>
+        <hr>
+        <br>
+        <table class="centerTable2">
+            <tr>
+                <th>
+                    <button class="profileButton">Messages</button>
+                </th>
+                <th>
+                    <button class="profileButton">Account</button>
+                </th>
+                <th>
+                    <button class="profileButton">Friends</button>
+                </th>
+
+            </tr>
+        </table>
+    </div>
+    <%- include('partials/footer.ejs') %>
+
+</main>
+</body>
+</html>
