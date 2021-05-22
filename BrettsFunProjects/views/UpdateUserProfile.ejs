@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Box</title>
+    <link rel='stylesheet' type="text/css" href='../assets/index.css' />
+
+</head>
+
+
+<main>
+    <div id="content">
+        <%- include('partials/nav.ejs') %>
+        <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
+        <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+        <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Account</h2>
+        <hr>
+        <br>
+
+        <form class="centerTableForm" action="/Updating" method="post" id="usrform">
+            <label for="Bio">Bio:</label><br>
+            <input type="text" name="Bio" id="Bio" value="<%=data.qs.Bio%>" placeholder="Tell us about you..."><br>
+
+            <label for="Work">Work:</label><br>
+            <input type="text" name="Work" id="Work" value="<%=data.qs.Work%>" placeholder="What is your Occupation.."><br>
+
+            <label for="Status">Status:</label><br>
+            <input type="text" name="Status" id="Status" value="<%=data.qs.Status%>" placeholder="Marital Status?"><br>
+
+            <label for="Seeking">Seeking:</label><br>
+            <input type="text" name="Seeking" id="Seeking" value="<%=data.qs.Seeking%>" placeholder="Who do you want to chat with..."><br>
+            <br>
+            <input class="button" type="submit" value="Submit">
+        </form>
+
+    </div>
+    <%- include('partials/footer.ejs') %>
+
+</main>
+</body>
+</html>

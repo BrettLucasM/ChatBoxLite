@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,28 +11,102 @@
 
 <main>
     <div id="content">
-        <%- include('partials/nav.ejs') %>
+
+        <div id="mainMenu">
+
+            <ul>
+                <li class="menuLogo"><a class="LogoMenuList" href="/"><img class="FLogo" src="assets/images/MainImage.PNG" alt="MovieScope"></a></li>
+                <li><a class="menuList" href="/logOut">Log Out</a></li>
+                <li><a class="menuList" href="/profile">Profile</a></li>
+            </ul>
+            <hr class="menuHR">
+            <ul class="menuConnect">
+                <li class="left"><a class="menuConnectli" href="#">About</a></li>
+                <li class="menuConnectliUser"><%=data.r.userID%></li>
+            </ul>
+
+
+        </div>
         <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
         <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
-        <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%></h2>
+        <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Profile</h2>
+        <hr>
+        <%if(typeof data.p !== 'undefined'){%>
+        <!--loop through the the result document listing all of the saved data-->
+
+        <table class="centerTable2">
+            <tr>
+                <%for(let j=0; j < data.p.length; j++){%><!--loop through the the result document listing all of the saved data-->
+                <th>
+                    <div>
+                        <p><em>About <%=data.result.firstN%>: </em> <%=data.p[j].Bio%></p>
+                        <p><em>Occupation: </em><%= data.p[j].Work %></p>
+                        <p><em>Relationship: </em><%= data.p[j].Status %></p>
+                        <p><em>Seeking: </em><%= data.p[j].Seeking %></p>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <%}%>
+        <%}%>
+
         <hr>
         <br>
+        <%if(typeof data.friend !== 'undefined'){%>
+        <!--loop through the the result document listing all of the saved data-->
+
+
+        <table class="centerTable2">
+            <tr>
+                <%for(let j=0; j < 4; j++){%><!--loop through the the result document listing all of the saved data-->
+                <th>
+                        <button class="friendButton"><%=data.friend[j].userID%></button>
+                </th>
+                <%}%>
+            </tr>
+
+            <tr>
+                <%for(let j=4; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
+                <td>
+                    <button class="friendButton"><%=data.friend[j].userID%></button>
+                </td>
+                <%}%>
+            </tr>
+        </table>
+
+        <%}%>
+
         <table class="centerTable2">
             <tr>
                 <th>
                     <button class="profileButton">Messages</button>
                 </th>
                 <th>
-                    <button class="profileButton">Account</button>
+                    <button class="profileButton" onclick="window.location.href='http://127.0.0.1:8082/UpdateUserAccount'">Account</button>
                 </th>
+                <%if(typeof data.friend === 'undefined'){%>
                 <th>
-                    <button class="profileButton">Friends</button>
+                    <button class="profileButton" onclick="window.location.href='http://127.0.0.1:8082/Friends'">Friends</button>
                 </th>
+                <%}%>
 
             </tr>
         </table>
     </div>
-    <%- include('partials/footer.ejs') %>
+    <footer class="footer"> <!--footer class for contact information-->
+        <table>
+            <tr>
+                <th>Facebook</th>
+                <th><a href="/contact">Contact</a></th>
+                <th><a href="/about">about</a></th>
+            </tr>
+        </table>
+
+        <br><hr>
+        <small>The terms amd services listed are bound and held as applying to the user upon visitation of this website .
+            Please feel free to visit our Terms and Services site for a full list of usages. </small>
+        <small>&#169;2021 All rights Reserved</small>
+    </footer>
 
 </main>
 </body>
