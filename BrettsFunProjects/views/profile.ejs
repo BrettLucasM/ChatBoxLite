@@ -29,7 +29,11 @@
         </div>
         <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
         <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+        <%if(typeof data.result !== 'undefined'){%>
         <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Profile</h2>
+        <%} else{%>
+            <h2 class="centerTable">Created Profile</h2>
+        <%}%>
         <hr>
         <%if(typeof data.p !== 'undefined'){%>
         <!--loop through the the result document listing all of the saved data-->
@@ -39,7 +43,7 @@
                 <%for(let j=0; j < data.p.length; j++){%><!--loop through the the result document listing all of the saved data-->
                 <th>
                     <div>
-                        <p><em>About <%=data.result.firstN%>: </em> <%=data.p[j].Bio%></p>
+                        <p><em>About: </em> <%=data.p[j].Bio%></p>
                         <p><em>Occupation: </em><%= data.p[j].Work %></p>
                         <p><em>Relationship: </em><%= data.p[j].Status %></p>
                         <p><em>Seeking: </em><%= data.p[j].Seeking %></p>
@@ -48,6 +52,23 @@
             </tr>
         </table>
         <%}%>
+        <%}%>
+
+        <%if(typeof data.s !== 'undefined'){%>
+        <!--loop through the the result document listing all of the saved data-->
+
+        <table class="centerTable2">
+            <tr>
+                <th>
+                    <div>
+                        <p><em>About: </em> <%=data.s.Bio%></p>
+                        <p><em>Occupation: </em><%= data.s.Work %></p>
+                        <p><em>Relationship: </em><%= data.s.Status %></p>
+                        <p><em>Seeking: </em><%= data.s.Seeking %></p>
+                    </div>
+                </th>
+            </tr>
+        </table>
         <%}%>
 
         <hr>

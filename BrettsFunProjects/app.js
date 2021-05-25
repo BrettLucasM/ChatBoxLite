@@ -45,6 +45,11 @@ db.once('open', function() {
 
     app.use('/assets', express.static('assets'));
 
+    //UserAccount.deleteMany({"ID": {$regex: /^b/}},
+        //function (err, Kitten) {
+            //if (err) return (err);
+            //console.log("Deleted");
+        //});
 
     app.get('/', function (req, res) {
         let data={
@@ -207,12 +212,12 @@ app.post('/c', urlencodedParser, function (req, res){
 
 
 
-//Fix this shit
+//Fix this!
 app.post('/Updating', urlencodedParser, function (req, res){
 
-        UserAccount.exists({ID: req.session.userID}, function(err, result) {
-            if (result === false) {//Something Wrong Here
-                console.log("Exists?:"+ result)
+        UserAccount.exists({ID: req.session.userID}, function(err, result2) {
+            if (result2 === false) {//Something Wrong Here
+                console.log("Exists?:"+ result2)
 
                 const temp = new UserAccount({
                     ID: req.session.userID,
@@ -225,39 +230,19 @@ app.post('/Updating', urlencodedParser, function (req, res){
                     if (err) return console.error(err);
                     console.log(temp);
                 });
-
-                UserAccount.find({ID: req.session.userID}, function(err, result1) {
-                    //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
-                    if (err) { //If there is an error then the console will log it and the website will hang
-                        console.log(err);
-                    } else { //If there is no error then continue
-                        console.log("Profile was found for "+req.session.userID)  //console information
-
-                        Users.findOne({userID: req.session.userID}, function (err, results) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log(req.session.userID+" found");
-                                console.log(results.firstN)
-                                console.log(result1[0].Bio)
-                            }
-                            let data={
-                                qs: req.query,
-                                "r": req.session,
-                                "p": result1,
-                                "result": results
-                            }
-                            res.render('profile', {data: data});
-                            console.log('Request was made: ' + req.url + ' on ' + dateTime);
-                        });
-                    }
-                })
+                                let data={
+                                    qs: req.query,
+                                    "r": req.session,
+                                    "s": req.body
+                                }
+                                res.render('profile', {data: data});
+                                console.log('Request was made: ' + req.url + ' on ' + dateTime);
                 var v = 1;
             }
 
-            if(result === true) {
+            if(result2 === true) {
                 console.log("Profile was found and Updated")
-                    console.log("Exists?:" + result)
+                    console.log("Exists?:" + result2)
                     console.log(req.session.userID);
 
                 const doc = UserAccount.findOne({
