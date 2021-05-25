@@ -60,6 +60,15 @@ db.once('open', function() {
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
+    app.get('/DeleteAccount', function (req, res) {
+        let data={
+            qs: req.query,
+            "r": req.session
+        }
+        res.render('deleteAccount', {data: data});
+        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+    });
+
     app.get('/profile', function (req, res) {
         UserAccount.find({ID: req.session.userID}, function(err, result) {
             //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
@@ -171,6 +180,50 @@ db.once('open', function() {
         });
     });
 
+    app.post('/DeleteUserAccount', urlencodedParser, function (req, res){
+
+        Users.exists({userID: req.session.userID}, function(err, result) {
+            if (result === false) {
+                console.log("Exists?:"+result);
+                console.log("Who is logged into this account.....Fraudulent behavior detected");
+            }
+
+            if(result === true) {
+                console.log("Exists?:"+result)
+                var v = 2;
+
+                Users.find({userID: req.session.userID}, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        Users.deleteOne({userID: req.session.userID}, function (err) {
+                            if (err) console.log(err);
+                            console.log("Successful deletion of "+req.session.userID+"'s account");
+                        })
+                    }
+                })
+
+                UserAccount.find({ID: req.session.userID}, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        UserAccount.deleteOne({ID: req.session.userID}, function (err) {
+                            if (err) console.log(err);
+                            console.log("Successful deletion of "+req.session.userID);
+                        })
+                    }
+                })
+            }
+
+            Users.find(function (err, Users) {
+                if (err) return console.error(err);
+                console.log(Users);
+            });
+
+            res.redirect('logOut');
+        });
+    });
+
 app.post('/c', urlencodedParser, function (req, res){
 
         Users.exists({userID: req.body.userID}, function(err, result) {
@@ -188,31 +241,36 @@ app.post('/c', urlencodedParser, function (req, res){
                     if (err) return console.error(err);
                     console.log(temp);
                 });
-                var v = 1;
+                let data = {
+                    qs: req.body,
+                    "v": v,
+                    "r": req.session
+                }
+
+                Users.find(function (err, Users) {
+                    if (err) return console.error(err);
+                    console.log(Users);
+                });
+
+                res.render('login', {data: data});
             }
 
             if(result === true) {
                 console.log("Exists?:"+result)
                 var v = 2;
-            }
-            let data = {
-                qs: req.body,
-                "v": v,
-                "r": req.session
+                let data = {
+                    "v": v,
+                    qs: req.query
+                }
+                res.render('signUp', {data: data});
             }
 
-            Users.find(function (err, Users) {
-                if (err) return console.error(err);
-                console.log(Users);
-            });
-
-            res.render('login', {data: data});
         });
     });
 
 
 
-//Fix this!
+//Fixed!
 app.post('/Updating', urlencodedParser, function (req, res){
 
         UserAccount.exists({ID: req.session.userID}, function(err, result2) {

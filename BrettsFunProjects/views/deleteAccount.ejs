@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Box</title>
+    <link rel='stylesheet' type="text/css" href='../assets/index.css' />
+
+</head>
+
+
+<main>
+    <div id="content">
+
+        <%- include('partials/nav.ejs') %>
+        <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
+        <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+        <%if(typeof data.result !== 'undefined'){%>
+        <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Account</h2>
+        <%}%>
+        <br><br>
+        <p class="center">Would you like to delete your account?</p>
+        <form class="center" action="/DeleteUserAccount" method="post" id="usrform">
+        <input class="button" type="submit" value="Yes">
+        </form>
+    </div>
+    <%- include('partials/footer.ejs') %>
+
+</main>
+</body>
+</html>

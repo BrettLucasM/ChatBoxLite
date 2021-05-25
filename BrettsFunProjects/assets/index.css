@@ -309,6 +309,11 @@ li {
     width: 95px;
     height: 65px;
 }
+
+.deleteButton{
+    background-color: gray;
+    color: black;
+}
 .friendButton{
     background-color: green;
     color: white;
@@ -335,4 +340,8 @@ li {
 }
 #Bio, #Work, #Seeking, #Status{
     width: 300px;
+}
+
+.center{
+    text-align: center;
 }

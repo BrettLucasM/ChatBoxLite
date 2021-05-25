@@ -18,6 +18,9 @@
     <div id="content">
         <img class="menuLogo2" src="assets/images/SignUp.gif" alt="MovieScope">
 
+        <%if((typeof data.v !== 'undefined' && data.v === 2)){%>
+            <h3 class="centerTable">Account is already taken!</h3>
+        <%}%>
         <form class="centerPostForm" action="/c" method="post">
             <label for="userID">Username:</label><br>
             <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="bmlucas"><br>

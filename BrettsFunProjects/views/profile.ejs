@@ -12,21 +12,7 @@
 <main>
     <div id="content">
 
-        <div id="mainMenu">
-
-            <ul>
-                <li class="menuLogo"><a class="LogoMenuList" href="/"><img class="FLogo" src="assets/images/MainImage.PNG" alt="MovieScope"></a></li>
-                <li><a class="menuList" href="/logOut">Log Out</a></li>
-                <li><a class="menuList" href="/profile">Profile</a></li>
-            </ul>
-            <hr class="menuHR">
-            <ul class="menuConnect">
-                <li class="left"><a class="menuConnectli" href="#">About</a></li>
-                <li class="menuConnectliUser"><%=data.r.userID%></li>
-            </ul>
-
-
-        </div>
+        <%- include('partials/nav.ejs') %>
         <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
         <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
         <%if(typeof data.result !== 'undefined'){%>
@@ -78,6 +64,13 @@
 
 
         <table class="centerTable2">
+            <%if (data.friend.length < 8){%>
+                <%for(let j=0; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
+                <th>
+                    <button class="friendButton"><%=data.friend[j].userID%></button>
+                </th>
+                <%}%>
+            <%} else{ %>
             <tr>
                 <%for(let j=0; j < 4; j++){%><!--loop through the the result document listing all of the saved data-->
                 <th>
@@ -94,7 +87,7 @@
                 <%}%>
             </tr>
         </table>
-
+        <%}%>
         <%}%>
 
         <table class="centerTable2">
@@ -114,20 +107,7 @@
             </tr>
         </table>
     </div>
-    <footer class="footer"> <!--footer class for contact information-->
-        <table>
-            <tr>
-                <th>Facebook</th>
-                <th><a href="/contact">Contact</a></th>
-                <th><a href="/about">about</a></th>
-            </tr>
-        </table>
-
-        <br><hr>
-        <small>The terms amd services listed are bound and held as applying to the user upon visitation of this website .
-            Please feel free to visit our Terms and Services site for a full list of usages. </small>
-        <small>&#169;2021 All rights Reserved</small>
-    </footer>
+    <%- include('partials/footer.ejs') %>
 
 </main>
 </body>
