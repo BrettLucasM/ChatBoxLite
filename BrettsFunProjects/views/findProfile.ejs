@@ -13,8 +13,8 @@
     <%- include('partials/nav.ejs') %>
     <%- include('partials/sideNav.ejs') %>
     <div id="content">
-        <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
-        <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+        <img class="profileBckImage" src="../assets/images/Charlotte2.jpg" alt="Sky Line">
+        <img class="profileAvatar" src="../assets/images/VanessaOtt.jpg" alt="Avatar">
 
         <br>
         <h3 class="centerTable">Explore other Profiles</h3>
@@ -26,10 +26,8 @@
             <tr>
                 <td>
                     <%if (data.result[j].userID !== data.r.userID){%>
-                    <form method="post" action="/viewProfile">
-                        <input type="hidden" name="userID" id="userID" value="" placeholder="Tell us about you..."><br>
-                    <input type="submit" value="<%=data.result[j].userID%> | <%= data.result1[j].Bio%>" class="side">
-                        </form>
+
+                    <button type="button" value="<%=data.result[j].userID%>" class="side" onclick="location.href='http://127.0.0.1:8082/UserProfile/<%=data.result[j].userID%>';"><%= data.result[j].userID%> | <%= data.result1[j].Bio%> <img class="Online" src="assets/images/green.jpg" alt="Green Dot"></button>
                         <br>
                 </td>
             </tr>

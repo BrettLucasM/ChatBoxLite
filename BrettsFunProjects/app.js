@@ -8,6 +8,10 @@ const model = require("./Models/UserModel")
 const AccountModel = require("./Models/UserAccountModel")
 app.use('/assets', express.static('assets'));
 fs = require('fs');
+
+const multer = require('multer');
+const upload = multer({dest: __dirname + '/uploads/images'});
+
 //const model = require("../Milestone3/Models/userModel");
 app.use(session({secret:'Keep it secret' //creates session secret and parameters.
     ,name:'uniqueSessionID'
@@ -27,6 +31,12 @@ db.once('open', function() {
         email: String
     });
 
+    const messageSchema = new mongoose.Schema({
+        receiver: String,
+        sender: String,
+        message: String
+    });
+
     const userAccountSchema = new mongoose.Schema({
         ID: String,
         Bio: String,
@@ -35,6 +45,7 @@ db.once('open', function() {
         Seeking: String
     });
     const Users = mongoose.model('Users', userSchema);
+    const Message = mongoose.model('Message', messageSchema);
     const UserAccount = mongoose.model('UserAccount', userAccountSchema);
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -51,6 +62,8 @@ db.once('open', function() {
             //console.log("Deleted");
         //});
 
+
+
     app.get('/', function (req, res) {
         let data={
             qs: req.query,
@@ -58,6 +71,89 @@ db.once('open', function() {
         }
         res.render('home', {data: data});
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
+    });
+
+    app.get('/newMessage/:id', function (req, res) {
+        console.log("Ready to send messages to " + req.params.id+ " from "+ req.session.userID);
+
+        let data={
+            qs: req.query,
+            "r": req.session,
+            "id": req.params
+        }
+        res.render('sendInitialMessage', {data: data});
+        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+    });
+
+    app.get('/myMessages', function (req, res) {
+
+        Message.find({sender: req.session.userID},function(err, result1) {
+            Message.find({receiver: req.session.userID},function(err, result) {
+                console.log(result1);
+                console.log(result);
+
+                let data={
+                    qs: req.query,
+                    "r": req.session,
+                    "result1": result1,
+                    "result": result
+                }
+                res.render('myMessage', {data: data});
+                console.log('Request was made: ' + req.url + ' on ' + dateTime);
+            })
+        })
+    });
+
+    app.post('/sendingMessage/:id', urlencodedParser, function (req, res){
+        console.log(req.params.id +" "+" "+ req.body.userID+" "+ req.body.message);
+
+        const temp = new Message({
+            receiver: req.params.id,
+            sender: req.body.userID,
+            message: req.body.message
+        });
+        temp.save(function (err, temp) {
+            if (err) return console.error(err);
+        });
+
+        Message.find({},function(err, result) {
+            console.log(result);
+        })
+
+        let data={
+            qs: req.query,
+            "r": req.session
+        }
+        res.render('myMessage', {data: data});
+        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+    });
+
+app.get('/UserProfile/:id', function (req, res) {
+        UserAccount.find({ID: req.params.id}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.params.id)  //console information
+                Users.findOne({userID: req.params.id}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.params.id+" found");
+                        console.log(results.firstN)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+        console.log(req.params.id);
     });
 
     app.get('/explore', function (req, res) {
@@ -242,12 +338,6 @@ db.once('open', function() {
 
             res.redirect('logOut');
         });
-    });
-
-app.post('/viewProfile', urlencodedParser, function (req, res){
-
-    //console.log(req.body.result[j].userID);
-
     });
 
 app.post('/c', urlencodedParser, function (req, res){

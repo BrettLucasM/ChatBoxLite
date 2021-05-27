@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Box</title>
+    <link rel='stylesheet' type="text/css" href='../assets/index.css' />
+
+</head>
+
+
+<main>
+
+    <%- include('partials/nav.ejs') %>
+    <%- include('partials/sideNav.ejs') %>
+
+    <div class="content">
+
+        <img class="profileBckImage" src="/assets/images/Charlotte2.jpg" alt="Sky Line">
+        <img class="profileAvatar" src="/assets/images/VanessaOtt.jpg" alt="Avatar">
+        <h2 class="centerTable">My Messages</h2>
+
+        <%if(typeof data.result !== 'undefined'){%>
+        <!--loop through the the result document listing all of the saved data-->
+                <%for(let j=0; j < data.result1.length; j++){%>
+
+                        <h3 class="messageList2">Sent to <%=data.result1[j].receiver%></h3>
+                            <div class="messageList"><em><%=data.result1[j].sender%>:</em><%=data.result1[j].message%></div>
+                                <br>
+        <%if(typeof data.result1 !== 'undefined'){%>
+                    <%for(let j=0; j < data.result.length; j++){%><!--loop through the the result document listing all of the saved data-->
+                    <div>
+                        <p><em><%=data.result[j].sender%> </em><%=data.result[j].message%></p>
+                    </div>
+                <%}%>
+                <%}%>
+            <%}%>
+        <%}%>
+    </div>
+
+    <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->
+</main>
+
+</body>
+</html>

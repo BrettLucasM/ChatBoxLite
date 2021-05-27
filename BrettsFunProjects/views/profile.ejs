@@ -16,8 +16,8 @@
 
     <div class="content">
 
-        <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
-        <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+        <img class="profileBckImage" src="/assets/images/Charlotte2.jpg" alt="Sky Line">
+        <img class="profileAvatar" src="/assets/images/VanessaOtt.jpg" alt="Avatar">
         <%if(typeof data.result !== 'undefined'){%>
         <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Profile</h2>
         <%} else{%>
@@ -71,14 +71,14 @@
             <%if (data.friend.length < 8){%>
                 <%for(let j=0; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
                 <th>
-                    <button class="friendButton"><%=data.friend[j].userID%></button>
+                    <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/newMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
                 </th>
                 <%}%>
             <%} else{ %>
             <tr>
                 <%for(let j=0; j < 4; j++){%><!--loop through the the result document listing all of the saved data-->
                 <th>
-                        <button class="friendButton"><%=data.friend[j].userID%></button>
+                        <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/newMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
                 </th>
                 <%}%>
             </tr>
@@ -86,7 +86,7 @@
             <tr>
                 <%for(let j=4; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
                 <td>
-                    <button class="friendButton"><%=data.friend[j].userID%></button>
+                    <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/newMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
                 </td>
                 <%}%>
             </tr>

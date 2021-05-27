@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Box</title>
+    <link rel='stylesheet' type="text/css" href='../assets/index.css' />
+
+</head>
+
+
+<main>
+    <%- include('partials/nav.ejs') %>
+    <%- include('partials/sideNav.ejs') %>
+    <div id="content">
+        <img class="profileBckImage" src="../assets/images/Charlotte2.jpg" alt="Sky Line">
+        <img class="profileAvatar" src="../assets/images/VanessaOtt.jpg" alt="Avatar">
+
+        <br><br><br>
+        <form action="/sendingMessage/<%=data.id.id%>" method="post" id="messageForm">
+            <label for="id">To:</label><br>
+            <input type="text" name="id" id="id" value="<%=data.id.id%>" readonly><br>
+
+            <label for="userID">From:</label><br>
+            <input type="text" name="userID" id="userID" value="<%=data.r.userID%>" readonly><br>
+
+            <label for="message">Message:</label><br>
+            <input type="text" name="message" id="message" value="<%=data.qs.message%>" placeholder="Send a Message..."><br>
+
+            <br>
+            <input class="button" type="submit" value="Submit">
+        </form>
+    </div>
+    <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->
+
+</main>
+</body>
+</html>
