@@ -9,8 +9,10 @@
 
 
 <main>
+    <%- include('partials/nav.ejs') %>
+    <%- include('partials/sideNav.ejs') %>
     <div id="content">
-        <%- include('partials/nav.ejs') %>
+
         <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
         <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
         <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Account</h2>
@@ -34,7 +36,7 @@
         </form>
 
     </div>
-    <%- include('partials/footer.ejs') %>
+    <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->
 
 </main>
 </body>

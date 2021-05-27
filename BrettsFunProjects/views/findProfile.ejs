@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Box</title>
+    <link rel='stylesheet' type="text/css" href='../assets/index.css' />
+
+</head>
+
+
+<main>
+    <%- include('partials/nav.ejs') %>
+    <%- include('partials/sideNav.ejs') %>
+    <div id="content">
+        <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
+        <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+
+        <br>
+        <h3 class="centerTable">Explore other Profiles</h3>
+        <br>
+        <table class="width">
+        <%for(let j=0; j < data.result.length; j++){%>
+
+
+            <tr>
+                <td>
+                    <%if (data.result[j].userID !== data.r.userID){%>
+                    <form method="post" action="/viewProfile">
+                        <input type="hidden" name="userID" id="userID" value="" placeholder="Tell us about you..."><br>
+                    <input type="submit" value="<%=data.result[j].userID%> | <%= data.result1[j].Bio%>" class="side">
+                        </form>
+                        <br>
+                </td>
+            </tr>
+            <%} else{%>
+            <%console.log("End of user profile list");%>
+            <%}%>
+            <%}%>
+
+        </table>
+
+    </div>
+    <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->
+
+</main>
+</body>
+</html>

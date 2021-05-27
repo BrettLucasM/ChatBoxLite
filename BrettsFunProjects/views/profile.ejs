@@ -10,9 +10,12 @@
 
 
 <main>
-    <div id="content">
 
-        <%- include('partials/nav.ejs') %>
+    <%- include('partials/nav.ejs') %>
+    <%- include('partials/sideNav.ejs') %>
+
+    <div class="content">
+
         <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
         <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
         <%if(typeof data.result !== 'undefined'){%>
@@ -59,6 +62,7 @@
 
         <hr>
         <br>
+
         <%if(typeof data.friend !== 'undefined'){%>
         <!--loop through the the result document listing all of the saved data-->
 
@@ -89,26 +93,10 @@
         </table>
         <%}%>
         <%}%>
-
-        <table class="centerTable2">
-            <tr>
-                <th>
-                    <button class="profileButton">Messages</button>
-                </th>
-                <th>
-                    <button class="profileButton" onclick="window.location.href='http://127.0.0.1:8082/UpdateUserAccount'">Account</button>
-                </th>
-                <%if(typeof data.friend === 'undefined'){%>
-                <th>
-                    <button class="profileButton" onclick="window.location.href='http://127.0.0.1:8082/Friends'">Friends</button>
-                </th>
-                <%}%>
-
-            </tr>
-        </table>
     </div>
-    <%- include('partials/footer.ejs') %>
 
+    <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->
 </main>
+
 </body>
 </html>

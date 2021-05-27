@@ -60,6 +60,26 @@ db.once('open', function() {
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
+    app.get('/explore', function (req, res) {
+
+        UserAccount.find({}, function (err, result1) {
+            console.log(result1);
+        Users.find({}, function (err, result) {
+          console.log("Found all users. First user is, "+result[0].userID);
+
+            let data={
+                qs: req.query,
+                "r": req.session,
+                "result": result,
+                "result1": result1
+            }
+            res.render('findProfile', {data: data});
+            console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
+        })
+
+    });
+
     app.get('/DeleteAccount', function (req, res) {
         let data={
             qs: req.query,
@@ -222,6 +242,12 @@ db.once('open', function() {
 
             res.redirect('logOut');
         });
+    });
+
+app.post('/viewProfile', urlencodedParser, function (req, res){
+
+    //console.log(req.body.result[j].userID);
+
     });
 
 app.post('/c', urlencodedParser, function (req, res){

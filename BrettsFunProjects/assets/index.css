@@ -282,13 +282,14 @@ li {
 
 #content {
     min-height: calc(100vh - 90px);
+    position: static;
 }
 
 .menuConnectliUser{
     color: black;;
     float: right;
     padding-left: 15px;
-    padding-top: 0px;
+    padding-top: 10px;
     font-size: medium;
     display: block;
     text-align: center;
@@ -322,8 +323,8 @@ li {
 }
 .profileBckImage{
     margin: 0;
-    padding-bottom: 80px;
     width: 100%;
+    padding-bottom: 80px;
     height: 200px;
     object-fit: cover;
     position: relative;
@@ -345,3 +346,50 @@ li {
 .center{
     text-align: center;
 }
+
+.sidenav {
+    height: 180px;
+    width: 200px;
+    position: absolute;
+    z-index: 1;
+    top: 143px;
+    bottom: 0;
+    right: 0;
+    background-color: #111;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.side{
+    text-align: left;
+    font-size: 25px;
+    border-style: double;
+    background-color: #818181;
+    color: #111111;
+    width: 85%;
+    cursor: pointer;
+}
+.width{
+    width: 100%;
+    padding-left: 10%;
+}
+.Online{
+    float: right;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+
+

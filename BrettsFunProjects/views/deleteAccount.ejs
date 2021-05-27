@@ -10,9 +10,11 @@
 
 
 <main>
+    <%- include('partials/nav.ejs') %>
+    <%- include('partials/sideNav.ejs') %>
     <div id="content">
 
-        <%- include('partials/nav.ejs') %>
+
         <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
         <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
         <%if(typeof data.result !== 'undefined'){%>
@@ -24,7 +26,7 @@
         <input class="button" type="submit" value="Yes">
         </form>
     </div>
-    <%- include('partials/footer.ejs') %>
+    <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->
 
 </main>
 </body>

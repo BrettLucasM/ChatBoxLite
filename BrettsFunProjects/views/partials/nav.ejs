@@ -9,13 +9,7 @@
         <hr class="menuHR">
         <ul class="menuConnect">
             <li class="left"><a class="menuConnectli" href="#">About</a></li>
-            <li class="menuConnectliUser">
-                <label for="updateAccount" >Welcome <%=data.r.userID%>!</label>
-                <select name="updateAccount" id="updateAccount" onchange="document.location='/DeleteAccount'">
-                    <option class="center" value="1">Your Account Settings</option>
-                    <option class="center" value="2">Change Account Information</option>
-                </select>
-            </li>
+            <li class="menuConnectliUser">Welcome <%=data.r.userID%>!</li>
         </ul>
 
 <%}else{%>
