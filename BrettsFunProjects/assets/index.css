@@ -407,6 +407,19 @@ li {
 .messageList2{
     color: whitesmoke;
 }
+.centerTableMessage{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    -webkit-border-horizontal-spacing: 150px;
+}
+.centerTableMessage2{
+    border: solid whitesmoke 5px;
+    padding: 60px;
+    overflow: scroll;
+    height: 190px;
+}
 
 
 

@@ -7,8 +7,6 @@
     <link rel='stylesheet' type="text/css" href='../assets/index.css' />
 
 </head>
-
-
 <main>
 
     <%- include('partials/nav.ejs') %>
@@ -19,24 +17,76 @@
         <img class="profileBckImage" src="/assets/images/Charlotte2.jpg" alt="Sky Line">
         <img class="profileAvatar" src="/assets/images/VanessaOtt.jpg" alt="Avatar">
         <h2 class="centerTable">My Messages</h2>
-        <h3 class="centerTable">Under Construction. Stopping point for today (05/27/2021).</h3>
+        <br>
 
-        <%if(typeof data.result !== 'undefined'){%>
+
+        <%if(typeof data.friend !== 'undefined'){%>
         <!--loop through the the result document listing all of the saved data-->
-                <%for(let j=0; j < data.result1.length; j++){%>
 
-                        <h3 class="messageList2">Sent to <%=data.result1[j].receiver%></h3>
-                            <div class="messageList"><em><%=data.result1[j].sender%>:</em><%=data.result1[j].message%></div>
-                                <br>
-        <%if(typeof data.result1 !== 'undefined'){%>
-                    <%for(let j=0; j < data.result.length; j++){%><!--loop through the the result document listing all of the saved data-->
-                    <div>
-                        <p><em><%=data.result[j].sender%> </em><%=data.result[j].message%></p>
-                    </div>
+
+        <table class="centerTable2">
+            <%if (data.friend.length < 8){%>
+            <%for(let j=0; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
+            <th>
+                <%if (data.friend[j].userID !== data.r.userID){%>
+                <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
                 <%}%>
-                <%}%>
+            </th>
             <%}%>
+            <%} else{ %>
+            <tr>
+                <%for(let j=0; j < 4; j++){%><!--loop through the the result document listing all of the saved data-->
+                <th>
+                    <%if (data.friend[j].userID !== data.r.userID){%>
+                    <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
+                    <%}%>                </th>
+                <%}%>
+            </tr>
+
+            <tr>
+                <%for(let j=4; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
+                <td>
+                    <%if (data.friend[j].userID !== data.r.userID){%>
+                    <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
+                    <%}%>                </td>
+                <%}%>
+            </tr>
+        </table>
         <%}%>
+        <%}%>
+
+        <%if(typeof data.result1 !== 'undefined'){%>
+        <table class="centerTableMessage">
+            <tr>
+                <th>
+                    <div class="centerTableMessage2">
+                <!--loop through the the result document listing all of the saved data-->
+                <%for(let j=0; j < data.result1.length; j++){%>
+                <div class="messageList2" id="messageList2"><%=data.result1[j].sender%>: <%=data.result1[j].message%></div>
+                <br>
+                <%}%>
+                    </div>
+                </th>
+
+                <th>
+                    <form action="/sendingMessage/<%=data.id.id%>" method="post" id="messageForm">
+                        <label for="id">To:</label><br>
+                        <input type="text" name="id" id="id" value="<%=data.id.id%>" readonly><br>
+
+                        <label for="userID">From:</label><br>
+                        <input type="text" name="userID" id="userID" value="<%=data.r.userID%>" readonly><br>
+
+                        <label for="message">Message:</label><br>
+                        <input type="text" name="message" id="message" value="<%=data.qs.message%>" placeholder="Send a Message..."><br>
+
+                        <br>
+                        <input class="button" type="submit" value="Submit">
+                    </form>
+                </th>
+            </tr>
+        </table><br><br>
+        <%}%>
+
     </div>
 
     <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->

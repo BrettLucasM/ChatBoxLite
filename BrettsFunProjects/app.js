@@ -34,7 +34,8 @@ db.once('open', function() {
     const messageSchema = new mongoose.Schema({
         receiver: String,
         sender: String,
-        message: String
+        message: String,
+        submittedDate: String
     });
 
     const userAccountSchema = new mongoose.Schema({
@@ -56,9 +57,9 @@ db.once('open', function() {
 
     app.use('/assets', express.static('assets'));
 
-    //UserAccount.deleteMany({"ID": {$regex: /^b/}},
-        //function (err, Kitten) {
-            //if (err) return (err);
+    //Message.deleteMany({},
+       //function (err, Kitten) {
+        //if (err) return (err);
             //console.log("Deleted");
         //});
 
@@ -87,21 +88,40 @@ db.once('open', function() {
 
     app.get('/myMessages', function (req, res) {
 
-        Message.find({sender: req.session.userID},function(err, result1) {
-            Message.find({receiver: req.session.userID},function(err, result) {
+        Users.find({}, function (err, result2) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("All users loaded and sent to page.")
+                console.log("Starting with "+result2[0].userID)
+                let data = {
+                    qs: req.query,
+                    "r": req.session,
+                    "friend": result2,
+                    "id": req.params
+                }
+                res.render('myMessage', {data: data});
+                console.log('Request was made: ' + req.url + ' on ' + dateTime);
+            }
+        });
+    });
+
+    app.get('/viewMessage/:id', function (req, res) {
+
+        console.log(req.params.id);
+        Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({'submittedDate': 'asc'}).exec(function(err, result1) {
                 console.log(result1);
-                console.log(result);
 
                 let data={
                     qs: req.query,
                     "r": req.session,
                     "result1": result1,
-                    "result": result
+                    "id": req.params
                 }
                 res.render('myMessage', {data: data});
                 console.log('Request was made: ' + req.url + ' on ' + dateTime);
             })
-        })
+
     });
 
     app.post('/sendingMessage/:id', urlencodedParser, function (req, res){
@@ -110,7 +130,9 @@ db.once('open', function() {
         const temp = new Message({
             receiver: req.params.id,
             sender: req.body.userID,
-            message: req.body.message
+            message: req.body.message,
+            submittedDate: dateTime
+
         });
         temp.save(function (err, temp) {
             if (err) return console.error(err);
@@ -120,12 +142,19 @@ db.once('open', function() {
             console.log(result);
         })
 
-        let data={
-            qs: req.query,
-            "r": req.session
-        }
-        res.render('myMessage', {data: data});
-        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        console.log(req.params.id);
+        Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({'submittedDate': 'asc'}).exec(function(err, result1) {
+            console.log(result1);
+
+            let data={
+                qs: req.query,
+                "r": req.session,
+                "result1": result1,
+                "id": req.params
+            }
+            res.render('myMessage', {data: data});
+            console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
     });
 
 app.get('/UserProfile/:id', function (req, res) {
