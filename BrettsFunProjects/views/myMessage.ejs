@@ -65,6 +65,9 @@
                 <div class="messageList2" id="messageList2"><%=data.result1[j].sender%>: <%=data.result1[j].message%></div>
                 <br>
                 <%}%>
+                        <%if(typeof data.lastM !== 'undefined'){%>
+                        <div class="messageList2" id="messageList2"><%=data.lastM.sender%>: <%=data.lastM.message%></div>
+                        <%}%>
                     </div>
                 </th>
 

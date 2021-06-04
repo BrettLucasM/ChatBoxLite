@@ -17,6 +17,7 @@ app.use(session({secret:'Keep it secret' //creates session secret and parameters
     ,name:'uniqueSessionID'
     ,saveUninitialized:false}))
 const mongoose = require('mongoose');
+//const path = require("ejs");
 mongoose.connect('mongodb://localhost/CBusers', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection;
@@ -45,6 +46,7 @@ db.once('open', function() {
         Status: String,
         Seeking: String
     });
+
     const Users = mongoose.model('Users', userSchema);
     const Message = mongoose.model('Message', messageSchema);
     const UserAccount = mongoose.model('UserAccount', userAccountSchema);
@@ -132,10 +134,10 @@ db.once('open', function() {
             sender: req.body.userID,
             message: req.body.message,
             submittedDate: dateTime
-
         });
         temp.save(function (err, temp) {
             if (err) return console.error(err);
+            console.log(temp);
         });
 
         Message.find({},function(err, result) {
@@ -150,7 +152,8 @@ db.once('open', function() {
                 qs: req.query,
                 "r": req.session,
                 "result1": result1,
-                "id": req.params
+                "id": req.params,
+                "lastM": temp
             }
             res.render('myMessage', {data: data});
             console.log('Request was made: ' + req.url + ' on ' + dateTime);
@@ -374,6 +377,19 @@ app.post('/c', urlencodedParser, function (req, res){
         Users.exists({userID: req.body.userID}, function(err, result) {
             if (result === false) {
                 console.log("Exists?:"+ result)
+
+                const temp1 = new UserAccount({
+                    ID: req.body.userID,
+                    Bio: "I am a ChatBox user!",
+                    Work: "",
+                    Status: "",
+                    Seeking: ""
+                });
+                temp1.save(function (err, temp) {
+                    if (err) return console.error(err);
+                    console.log(temp1);
+                });
+                console.log("Created general user profile");
 
                 const temp = new Users({
                     userID: req.body.userID,

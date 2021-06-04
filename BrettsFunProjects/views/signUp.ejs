@@ -21,17 +21,17 @@
         <%if((typeof data.v !== 'undefined' && data.v === 2)){%>
             <h3 class="centerTable">Account is already taken!</h3>
         <%}%>
-        <form class="centerPostForm" action="/c" method="post">
+        <form class="centerPostFormNoBor" action="/c" method="post">
             <label for="userID">Username:</label><br>
-            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="bmlucas"><br>
+            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="bmlucas"><br><br>
             <label for="password">password:</label><br>
-            <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder="password"><br>
+            <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder="password"><br><br>
             <label for="firstN">First Name:</label><br>
-            <input type="text" id="firstN" name="firstN" value="<%= data.qs.firstN%>" placeholder="password"><br>
+            <input type="text" id="firstN" name="firstN" value="<%= data.qs.firstN%>" placeholder="John"><br><br>
             <label for="lastN">Last Name:</label><br>
-            <input type="text" id="lastN" name="lastN" value="<%= data.qs.lastN%>" placeholder="password"><br>
+            <input type="text" id="lastN" name="lastN" value="<%= data.qs.lastN%>" placeholder="Doe"><br><br>
             <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" value="<%= data.qs.email%>" placeholder="password"><br><br>
+            <input type="email" id="email" name="email" value="<%= data.qs.email%>" placeholder="JonDoe@uncc.edu"><br><br>
             <input class="button" type="submit" value="Submit">
         </form>
 
