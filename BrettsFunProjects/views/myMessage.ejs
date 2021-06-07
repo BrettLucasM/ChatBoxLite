@@ -29,7 +29,7 @@
             <%for(let j=0; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
             <th>
                 <%if (data.friend[j].userID !== data.r.userID){%>
-                <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
+                <button class="friendButton" onclick="location.href='/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
                 <%}%>
             </th>
             <%}%>
@@ -38,7 +38,7 @@
                 <%for(let j=0; j < 4; j++){%><!--loop through the the result document listing all of the saved data-->
                 <th>
                     <%if (data.friend[j].userID !== data.r.userID){%>
-                    <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
+                    <button class="friendButton" onclick="location.href='/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
                     <%}%>                </th>
                 <%}%>
             </tr>
@@ -47,7 +47,7 @@
                 <%for(let j=4; j < data.friend.length; j++){%><!--loop through the the result document listing all of the saved data-->
                 <td>
                     <%if (data.friend[j].userID !== data.r.userID){%>
-                    <button class="friendButton" onclick="location.href='http://127.0.0.1:8082/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
+                    <button class="friendButton" onclick="location.href='/viewMessage/<%=data.friend[j].userID%>';"><%=data.friend[j].userID%></button>
                     <%}%>                </td>
                 <%}%>
             </tr>
