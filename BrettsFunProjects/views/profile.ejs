@@ -16,8 +16,7 @@
 
     <div class="content">
 
-        <img class="profileBckImage" src="/assets/images/Charlotte2.jpg" alt="Sky Line">
-        <img class="profileAvatar" src="/assets/images/VanessaOtt.jpg" alt="Avatar">
+        <%- include('partials/userImage.ejs') %>
         <%if(typeof data.result !== 'undefined'){%>
         <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Profile</h2>
         <%} else{%>

@@ -217,6 +217,30 @@ app.get('/UserProfile/:id', function (req, res) {
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
+    app.post('/DeleteUserAccount1', urlencodedParser, function (req, res){
+        var t = 1;
+        let data={
+            qs: req.query,
+            "r": req.session,
+            "t": t
+        }
+        res.render('deleteAccount', {data: data});
+        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+    });
+
+    app.post('/DeleteUserAccount2', urlencodedParser, function (req, res){
+        var t = 1;
+        var v = 1;
+        let data={
+            qs: req.query,
+            "r": req.session,
+            "t": t,
+            "v": v
+        }
+        res.render('deleteAccount', {data: data});
+        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+    });
+
     app.get('/profile', function (req, res) {
         UserAccount.find({ID: req.session.userID}, function(err, result) {
             //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType

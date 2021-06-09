@@ -14,17 +14,33 @@
     <%- include('partials/sideNav.ejs') %>
     <div id="content">
 
-
-        <img class="profileBckImage" src="assets/images/Charlotte2.jpg" alt="Girl in a jacket">
-        <img class="profileAvatar" src="assets/images/VanessaOtt.jpg" alt="Avatar">
+        <%- include('partials/userImage.ejs') %>
         <%if(typeof data.result !== 'undefined'){%>
         <h2 class="centerTable"><%=data.result.firstN%> <%=data.result.lastN%>'s Account</h2>
         <%}%>
         <br><br>
         <p class="center">Would you like to delete your account?</p>
-        <form class="center" action="/DeleteUserAccount" method="post" id="usrform">
+        <form class="center" action="/DeleteUserAccount1" method="post" id="usrform">
+            <%if(typeof data.t === 'undefined'){%>
         <input class="button" type="submit" value="Yes">
+            <%}%>
         </form>
+        <br>
+        <%if((typeof data.t !== 'undefined' && data.t === 1)){%>
+        <p class="center1">Are you sure you wish to delete your account?</p>
+        <form class="center1" action="/DeleteUserAccount2" method="post" id="usrform">
+            <%if(typeof data.v === 'undefined'){%>
+            <input class="button" type="submit" value="Yes">
+            <%}%>
+        </form>
+        <%}%>
+        <br>
+        <%if((typeof data.v !== 'undefined' && data.v === 1)){%>
+        <p class="center1">Once your account is deleted you will not be able to recover it! Delete anyway?</p>
+        <form class="center1" action="/DeleteUserAccount" method="post" id="usrform">
+            <input class="button" type="submit" value="Yes">
+        </form>
+        <%}%>
     </div>
     <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->
 
