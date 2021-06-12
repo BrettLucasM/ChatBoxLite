@@ -125,6 +125,28 @@ db.once('open', function() {
             })
 
     });
+    app.get('/sendingMessage/:id', function (req, res) {
+        Message.find({}, function (err, result) {
+            console.log(result);
+        })
+
+        console.log(req.params.id);
+        Message.find({
+            sender: {$in: [req.session.userID, req.params.id]},
+            receiver: {$in: [req.session.userID, req.params.id]}
+        }).sort({'submittedDate': 'asc'}).exec(function (err, result1) {
+            console.log(result1);
+
+            let data = {
+                qs: req.query,
+                "r": req.session,
+                "result1": result1,
+                "id": req.params
+            }
+            res.render('myMessage', {data: data});
+            console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
+    });
 
     app.post('/sendingMessage/:id', urlencodedParser, function (req, res){
         console.log(req.params.id +" "+" "+ req.body.userID+" "+ req.body.message);
