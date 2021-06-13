@@ -62,11 +62,11 @@
                         <div class="sub">
                 <!--loop through the the result document listing all of the saved data-->
                 <%for(let j=0; j < data.result1.length; j++){%>
-                <div class="messageList2" id="messageList2"><%=data.result1[j].sender%>: <%=data.result1[j].message%></div>
+                <div class="messageList2" id="messageList2"><div class="colorText"><%=data.result1[j].sender%>:</div> <%=data.result1[j].message%></div>
                 <br>
                 <%}%>
                         <%if(typeof data.lastM !== 'undefined'){%>
-                        <div class="messageList2" id="messageList2"><%=data.lastM.sender%>: <%=data.lastM.message%></div>
+                        <div class="messageList2" id="messageList2"><div class="colorText"><%=data.lastM.sender%>:</div> <%=data.lastM.message%></div>
                         <%}%>
                     </div>
                     </div>

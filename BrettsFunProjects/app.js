@@ -111,7 +111,7 @@ db.once('open', function() {
     app.get('/viewMessage/:id', function (req, res) {
 
         console.log(req.params.id);
-        Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({'submittedDate': 'asc'}).exec(function(err, result1) {
+        Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({submittedDate: -1}).exec(function(err, result1) {
                 console.log(result1);
 
                 let data={
@@ -167,7 +167,7 @@ db.once('open', function() {
         })
 
         console.log(req.params.id);
-        Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({'submittedDate': 'asc'}).exec(function(err, result1) {
+        Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({submittedDate: -1}).exec(function(err, result1) {
             console.log(result1);
 
             let data={
