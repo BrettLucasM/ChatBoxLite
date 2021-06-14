@@ -18,21 +18,118 @@
         <hr>
         <br>
 
-        <form class="centerTableForm" action="/Updating" method="post" id="usrform">
-            <label for="Bio">Bio:</label><br>
-            <input type="text" name="Bio" id="Bio" value="<%=data.qs.Bio%>" placeholder="Tell us about you..."><br>
+        <table class="centerTableAvatar">
+            <tr>
+                <th>
+                    <p>New User Profile</p>
+                    <form class="centerTableForm" action="/Updating" method="post" id="usrform">
+                        <label for="Bio">Bio:</label><br>
+                        <input type="text" name="Bio" id="Bio" value="<%=data.qs.Bio%>" placeholder="Tell us about you..."><br>
 
-            <label for="Work">Work:</label><br>
-            <input type="text" name="Work" id="Work" value="<%=data.qs.Work%>" placeholder="What is your Occupation.."><br>
+                        <label for="Work">Work:</label><br>
+                        <input type="text" name="Work" id="Work" value="<%=data.qs.Work%>" placeholder="What is your Occupation.."><br>
 
-            <label for="Status">Status:</label><br>
-            <input type="text" name="Status" id="Status" value="<%=data.qs.Status%>" placeholder="Marital Status?"><br>
+                        <label for="Status">Status:</label><br>
+                        <input type="text" name="Status" id="Status" value="<%=data.qs.Status%>" placeholder="Marital Status?"><br>
 
-            <label for="Seeking">Seeking:</label><br>
-            <input type="text" name="Seeking" id="Seeking" value="<%=data.qs.Seeking%>" placeholder="Who do you want to chat with..."><br>
-            <br>
-            <input class="button" type="submit" value="Submit">
-        </form>
+                        <label for="Seeking">Seeking:</label><br>
+                        <input type="text" name="Seeking" id="Seeking" value="<%=data.qs.Seeking%>" placeholder="Who do you want to chat with..."><br>
+                        <br>
+                        <input class="button" type="submit" value="Submit">
+                    </form>
+                </th>
+                <th>
+                <p>New User Avatar</p>
+                    <div class="centerTableAvatar2">
+                        <table class="centerTableAvatar2">
+                            <tr>
+
+                                <th>
+                                    <a href="/newAvatar1">
+                                        <img class="avatarSelection" src="../assets/images/glassesAndTie.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="/newAvatar2">
+                                        <img class="avatarSelection" src="../assets/images/AfroGuy.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="/newAvatar3">
+                                        <img class="avatarSelection" src="../assets/images/GenericFemale.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="/newAvatar4">
+                                        <img class="avatarSelection" src="../assets/images/GenericMale.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="/newAvatar5">
+                                        <img class="avatarSelection" src="../assets/images/girlWithGlasses.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="/newAvatar6">
+                                        <img class="avatarSelection" src="../assets/images/MaleImage1.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <a href="/newAvatar7">
+                                        <img class="avatarSelection" src="../assets/images/FemaleL.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="/newAvatar8">
+                                        <img class="avatarSelection" src="../assets/images/FemaleL2.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="/newAvatar9">
+                                        <img class="avatarSelection" src="../assets/images/PinkRobo.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <a href="/newAvatar10">
+                                        <img class="avatarSelection" src="../assets/images/RedRobo.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="/newAvatar11">
+                                        <img class="avatarSelection" src="../assets/images/YellowRobo.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="/newAvatar12">
+                                        <img class="avatarSelection" src="../assets/images/BlueRobo.PNG" alt="Your Avatar">
+                                    </a>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <a href="/newAvatar13">
+                                        <img class="avatarSelection" src="../assets/images/Pride.PNG" alt="Your Avatar">
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <br><br><br>
 
     </div>
     <!--<%-// include('partials/footer.ejs') %> For some reason this doesnt work-->

@@ -452,6 +452,27 @@ li {
 .colorText{
     color: green;
 }
+.avatarSelection{
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+}
+.centerTableAvatar {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    -webkit-border-horizontal-spacing: 150px;
+}
+.centerTableAvatar2{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    overflow: scroll;
+    height: 350px;
+    padding: 30px;
+}
 
 
 

@@ -1,2 +1,7 @@
 <img class="profileBckImage" src="/assets/images/Charlotte2.jpg" alt="Sky Line">
+<%if((typeof data.p !== 'undefined')){%>
+<img class="profileAvatar" src="/assets/images/<%-data.p[0].Image%>" alt="Avatar1">
+<%console.log('This is the image ' + data.p[0].Image)%>
+<%} else{%>
 <img class="profileAvatar" src="/assets/images/MaleImage1.PNG" alt="Avatar">
+<%}%>

@@ -44,7 +44,8 @@ db.once('open', function() {
         Bio: String,
         Work: String,
         Status: String,
-        Seeking: String
+        Seeking: String,
+        Image: String
     });
 
     const Users = mongoose.model('Users', userSchema);
@@ -59,11 +60,7 @@ db.once('open', function() {
 
     app.use('/assets', express.static('assets'));
 
-    //Message.deleteMany({},
-       //function (err, Kitten) {
-        //if (err) return (err);
-            //console.log("Deleted");
-        //});
+
 
 
 
@@ -90,22 +87,25 @@ db.once('open', function() {
 
     app.get('/myMessages', function (req, res) {
 
-        Users.find({}, function (err, result2) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("All users loaded and sent to page.")
-                console.log("Starting with "+result2[0].userID)
-                let data = {
-                    qs: req.query,
-                    "r": req.session,
-                    "friend": result2,
-                    "id": req.params
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            Users.find({}, function (err, result2) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("All users loaded and sent to page.")
+                    console.log("Starting with " + result2[0].userID)
+                    let data = {
+                        qs: req.query,
+                        "r": req.session,
+                        "friend": result2,
+                        "id": req.params,
+                        "p": result
+                    }
+                    res.render('myMessage', {data: data});
+                    console.log('Request was made: ' + req.url + ' on ' + dateTime);
                 }
-                res.render('myMessage', {data: data});
-                console.log('Request was made: ' + req.url + ' on ' + dateTime);
-            }
-        });
+            });
+        })
     });
 
     app.get('/viewMessage/:id', function (req, res) {
@@ -212,6 +212,7 @@ app.get('/UserProfile/:id', function (req, res) {
 
     app.get('/explore', function (req, res) {
 
+        UserAccount.find({ID: req.session.userID}, function(err, result3) {
         UserAccount.find({}, function (err, result1) {
             console.log(result1);
         Users.find({}, function (err, result) {
@@ -221,22 +222,33 @@ app.get('/UserProfile/:id', function (req, res) {
                 qs: req.query,
                 "r": req.session,
                 "result": result,
-                "result1": result1
+                "result1": result1,
+                "p": result3
             }
             res.render('findProfile', {data: data});
             console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
         })
         })
 
     });
 
     app.get('/DeleteAccount', function (req, res) {
-        let data={
-            qs: req.query,
-            "r": req.session
-        }
-        res.render('deleteAccount', {data: data});
-        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        UserAccount.find({ID: req.session.userID}, function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(req.session.userID+" found");
+                console.log(results.Image)
+                let data={
+                    qs: req.query,
+                    "r": req.session,
+                    "p": results
+                }
+                res.render('deleteAccount', {data: data});
+                console.log('Request was made: ' + req.url + ' on ' + dateTime);
+            }
+        });
     });
 
     app.post('/DeleteUserAccount1', urlencodedParser, function (req, res){
@@ -318,21 +330,31 @@ app.get('/UserProfile/:id', function (req, res) {
             }
             if (result === true) {
                 console.log("User name found in Database")
-                Users.findOne({userID: req.session.userID}, function (err, result) {
-                    if (err) {
+
+                UserAccount.find({ID: req.session.userID}, function(err, result) {
+                    //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+                    if (err) { //If there is an error then the console will log it and the website will hang
                         console.log(err);
-                    } else {
-                        console.log(req.session.userID+" found");
-                        console.log(result.firstN)
-                        let data={
-                            qs: req.query,
-                            "r": req.session,
-                            "result": result
-                        }
-                        res.render('UpdateUserProfile', {data: data});
-                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    } else { //If there is no error then continue
+                        console.log("Profile was found for "+req.session.userID)  //console information
+                        Users.findOne({userID: req.session.userID}, function (err, results) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(req.session.userID+" found");
+                                console.log(result[0].Image)
+                                let data={
+                                    qs: req.query,
+                                    "r": req.session,
+                                    "p": result,
+                                    "result": results
+                                }
+                                res.render('UpdateUserProfile', {data: data});
+                                console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                            }
+                        });
                     }
-                });
+                })
             }
 
         })
@@ -489,7 +511,8 @@ app.post('/Updating', urlencodedParser, function (req, res){
                     Bio: req.body.Bio,
                     Work: req.body.Work,
                     Status: req.body.Status,
-                    Seeking: req.body.Seeking
+                    Seeking: req.body.Seeking,
+                    Image: 'MaleImage1.PNG'
                 });
                 temp.save(function (err, temp) {
                     if (err) return console.error(err);
@@ -665,7 +688,552 @@ app.get('/authenticate', function (req, res){
             res.redirect('/login'); //if any other answer redirect to /login URL
     });
 
+    app.get('/newAvatar1', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'glassesAndTie.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+app.get('/newAvatar2', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'AfroGuy.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+
+    app.get('/newAvatar3', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'GenericFemale.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar4', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'GenericMale.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar5', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'girlWithGlasses.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar6', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'MaleImage1.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+
+    app.get('/newAvatar7', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'FemaleL.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar8', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'FemaleL2.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar9', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'PinkRobo.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+
+    app.get('/newAvatar10', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'RedRobo.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar11', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'YellowRobo.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar12', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'BlueRobo.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar13', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'Pride.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    setInterval(function(){
+        Message.deleteMany({},
+            function (err, Kitten) {
+                if (err) return (err);
+                console.log("Messages Deleted Every Nine Hours!");
+            });
+    }, 32400000);
+
 })
+
     app.listen(8082, function(){
 
         console.log("Listening to Port 8082..")

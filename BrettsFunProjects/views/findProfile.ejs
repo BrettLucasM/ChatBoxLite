@@ -26,7 +26,7 @@
                 <td>
                     <%if (data.result[j].userID !== data.r.userID){%>
 
-                    <button type="button" value="<%=data.result[j].userID%>" class="side" onclick="location.href='/UserProfile/<%=data.result[j].userID%>';"><%= data.result[j].userID%> | <%= data.result1[j].Bio%> <img class="Online" src="assets/images/green.jpg" alt="Green Dot"></button>
+                    <button type="button" value="<%=data.result[j].userID%>" class="side" onclick="location.href='/UserProfile/<%=data.result[j].userID%>';"><%= data.result[j].userID%> | <%= data.result1[j].Bio%> <img class="Online" src="assets/images/<%- data.result1[j].Image%>" alt="Green Dot"></button>
                         <br>
                 </td>
             </tr>
