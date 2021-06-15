@@ -15,7 +15,7 @@
     <div class="content">
 
         <%- include('partials/userImage.ejs') %>
-        <h2 class="centerTable">My Messages</h2>
+        <h2 class="centerTable">My Messages<span class="centerTableHome">*</span></h2>
         <br>
 
 
@@ -65,9 +65,9 @@
                 <div class="messageList2" id="messageList2"><div class="colorText"><%=data.result1[j].sender%>:</div> <%=data.result1[j].message%></div>
                 <br>
                 <%}%>
-                        <%if(typeof data.lastM !== 'undefined'){%>
-                        <div class="messageList2" id="messageList2"><div class="colorText"><%=data.lastM.sender%>:</div> <%=data.lastM.message%></div>
-                        <%}%>
+                            <%/*if(typeof data.lastM !== 'undefined'){%>
+                            <!--<div class="messageList2" id="messageList2"><div class="colorText"><%=data.lastM.sender%>:</div> <%=data.lastM.message%></div>-->
+                            <%}*/%>
                     </div>
                     </div>
                 </th>
@@ -89,6 +89,7 @@
                 </th>
             </tr>
         </table><br><br>
+        <p class="centerTableHome">*All messages will be deleted daily.</p>
         <%}%>
 
     </div>

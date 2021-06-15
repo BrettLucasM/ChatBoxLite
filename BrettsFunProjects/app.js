@@ -61,7 +61,11 @@ db.once('open', function() {
     app.use('/assets', express.static('assets'));
 
 
-
+    //Message.deleteMany({},
+        //function (err, Kitten) {
+            //if (err) return (err);
+            //console.log("Messages Deleted Every Nine Hours!");
+        //});
 
 
     app.get('/', function (req, res) {
@@ -75,14 +79,16 @@ db.once('open', function() {
 
     app.get('/newMessage/:id', function (req, res) {
         console.log("Ready to send messages to " + req.params.id+ " from "+ req.session.userID);
-
-        let data={
-            qs: req.query,
-            "r": req.session,
-            "id": req.params
-        }
-        res.render('sendInitialMessage', {data: data});
-        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            let data = {
+                qs: req.query,
+                "r": req.session,
+                "id": req.params,
+                "p": result
+            }
+            res.render('sendInitialMessage', {data: data});
+            console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
     });
 
     app.get('/myMessages', function (req, res) {
@@ -111,6 +117,7 @@ db.once('open', function() {
     app.get('/viewMessage/:id', function (req, res) {
 
         console.log(req.params.id);
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
         Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({submittedDate: -1}).exec(function(err, result1) {
                 console.log(result1);
 
@@ -118,12 +125,13 @@ db.once('open', function() {
                     qs: req.query,
                     "r": req.session,
                     "result1": result1,
-                    "id": req.params
+                    "id": req.params,
+                    "p": result
                 }
                 res.render('myMessage', {data: data});
                 console.log('Request was made: ' + req.url + ' on ' + dateTime);
             })
-
+        })
     });
     app.get('/sendingMessage/:id', function (req, res) {
         Message.find({}, function (err, result) {
@@ -131,6 +139,7 @@ db.once('open', function() {
         })
 
         console.log(req.params.id);
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
         Message.find({
             sender: {$in: [req.session.userID, req.params.id]},
             receiver: {$in: [req.session.userID, req.params.id]}
@@ -141,10 +150,12 @@ db.once('open', function() {
                 qs: req.query,
                 "r": req.session,
                 "result1": result1,
-                "id": req.params
+                "id": req.params,
+                "p": result
             }
             res.render('myMessage', {data: data});
             console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
         })
     });
 
@@ -167,6 +178,7 @@ db.once('open', function() {
         })
 
         console.log(req.params.id);
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
         Message.find({sender: { $in: [req.session.userID, req.params.id]}, receiver: { $in: [req.session.userID, req.params.id]}}).sort({submittedDate: -1}).exec(function(err, result1) {
             console.log(result1);
 
@@ -175,10 +187,12 @@ db.once('open', function() {
                 "r": req.session,
                 "result1": result1,
                 "id": req.params,
-                "lastM": temp
+                "lastM": temp,
+                "p": result
             }
             res.render('myMessage', {data: data});
             console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
         })
     });
 
@@ -252,27 +266,33 @@ app.get('/UserProfile/:id', function (req, res) {
     });
 
     app.post('/DeleteUserAccount1', urlencodedParser, function (req, res){
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
         var t = 1;
         let data={
             qs: req.query,
             "r": req.session,
-            "t": t
+            "t": t,
+            "p": result
         }
         res.render('deleteAccount', {data: data});
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
     });
 
     app.post('/DeleteUserAccount2', urlencodedParser, function (req, res){
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
         var t = 1;
         var v = 1;
         let data={
             qs: req.query,
             "r": req.session,
             "t": t,
-            "v": v
+            "v": v,
+            "p": result
         }
         res.render('deleteAccount', {data: data});
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
+        })
     });
 
     app.get('/profile', function (req, res) {
@@ -451,7 +471,8 @@ app.post('/c', urlencodedParser, function (req, res){
                     Bio: "I am a ChatBox user!",
                     Work: "",
                     Status: "",
-                    Seeking: ""
+                    Seeking: "",
+                    Image: "DefaultSkin.PNG"
                 });
                 temp1.save(function (err, temp) {
                     if (err) return console.error(err);
@@ -1195,6 +1216,89 @@ app.get('/newAvatar2', function (req, res){
             }
         });
         const update1 = {Image: 'Pride.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+    app.get('/newAvatar14', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'Chicken.PNG'};
+        doc1.updateOne(update1);
+
+
+        UserAccount.find({ID: req.session.userID}, function(err, result) {
+            //finds a document in the UserInfo model with specific parameters, connectionID and ConnectionType
+            if (err) { //If there is an error then the console will log it and the website will hang
+                console.log(err);
+            } else { //If there is no error then continue
+                console.log("Profile was found for "+req.session.userID)  //console information
+                Users.findOne({userID: req.session.userID}, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(req.session.userID+" found");
+                        console.log(result[0].Image)
+                        let data={
+                            qs: req.query,
+                            "r": req.session,
+                            "p": result,
+                            "result": results
+                        }
+                        res.render('profile', {data: data});
+                        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+                    }
+                });
+            }
+        })
+    });
+
+
+    app.get('/newAvatar15', function (req, res){
+
+        const doc1 = UserAccount.findOne({
+            ID: req.session.userID
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('This is the image:' + result.Image)
+            }
+        });
+        const update1 = {Image: 'Rawr.PNG'};
         doc1.updateOne(update1);
 
 
