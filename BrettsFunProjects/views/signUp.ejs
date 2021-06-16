@@ -21,9 +21,17 @@
         <%if((typeof data.v !== 'undefined' && data.v === 2)){%>
             <h3 class="centerTable">Account is already taken!</h3>
         <%}%>
+
+        <div>
+            <%console.log(data.errors)%>
+            <%if(typeof data.errors !== 'undefined' && typeof data.errors[0] !== 'undefined'){%>
+            <h3 class="error"><small>* <%=data.errors[0].msg%></small></h3>
+            <%}%>
+        </div>
+
         <form class="centerPostFormNoBor" action="/c" method="post">
             <label for="userID">Username:</label><br>
-            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="bmlucas"><br><br>
+            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="username1"><br><br>
             <label for="password">password:</label><br>
             <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder="password"><br><br>
             <label for="firstN">First Name:</label><br>
@@ -34,6 +42,7 @@
             <input type="email" id="email" name="email" value="<%= data.qs.email%>" placeholder="JonDoe@uncc.edu"><br><br>
             <input class="button" type="submit" value="Submit">
         </form>
+
 
 
     </div><br><br>

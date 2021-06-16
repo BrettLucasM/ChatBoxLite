@@ -473,6 +473,10 @@ li {
     height: 350px;
     padding: 30px;
 }
+.error{
+    color: red;
+    text-align: center;
+}
 
 
 

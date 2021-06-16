@@ -8,6 +8,7 @@ const model = require("./Models/UserModel")
 const AccountModel = require("./Models/UserAccountModel")
 app.use('/assets', express.static('assets'));
 fs = require('fs');
+const { check, validationResult } = require('express-validator');
 
 const multer = require('multer');
 const upload = multer({dest: __dirname + '/uploads/images'});
@@ -208,7 +209,7 @@ app.get('/UserProfile/:id', function (req, res) {
                         console.log(err);
                     } else {
                         console.log(req.params.id+" found");
-                        console.log(results.firstN)
+                        //console.log(results.firstN)
                         let data={
                             qs: req.query,
                             "r": req.session,
@@ -460,62 +461,78 @@ app.get('/UserProfile/:id', function (req, res) {
         });
     });
 
-app.post('/c', urlencodedParser, function (req, res){
+    app.use(bodyParser.urlencoded({ extended: true}));
+    app.post('/c', [
+        check('userID')
+            .custom(value => !/\s/.test(value))
+            .withMessage('No spaces are allowed in the username')
+    ], function (req, res){
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            //console.log(res.status(422).json({ errors: errors.array() }))
+            let data = {
+                qs: req.query,
+                errors: errors.array(),
+                "r": req.session
+            }
+            res.render('signUp', {data: data});
+        } else {
 
-        Users.exists({userID: req.body.userID}, function(err, result) {
-            if (result === false) {
-                console.log("Exists?:"+ result)
+            Users.exists({userID: req.body.userID}, function (err, result) {
+                if (result === false) {
+                    console.log("Exists?:" + result)
 
-                const temp1 = new UserAccount({
-                    ID: req.body.userID,
-                    Bio: "I am a ChatBox user!",
-                    Work: "",
-                    Status: "",
-                    Seeking: "",
-                    Image: "DefaultSkin.PNG"
-                });
-                temp1.save(function (err, temp) {
-                    if (err) return console.error(err);
-                    console.log(temp1);
-                });
-                console.log("Created general user profile");
+                    const temp1 = new UserAccount({
+                        ID: req.body.userID,
+                        Bio: "I am a ChatBox user!",
+                        Work: "",
+                        Status: "",
+                        Seeking: "",
+                        Image: "DefaultSkin.PNG"
+                    });
+                    temp1.save(function (err, temp) {
+                        if (err) return console.error(err);
+                        console.log(temp1);
+                    });
+                    console.log("Created general user profile");
 
-                const temp = new Users({
-                    userID: req.body.userID,
-                    password: req.body.password,
-                    firstN: req.body.firstN,
-                    lastN: req.body.lastN,
-                    email: req.body.email
-                });
-                temp.save(function (err, temp) {
-                    if (err) return console.error(err);
-                    console.log(temp);
-                });
-                let data = {
-                    qs: req.body,
-                    "v": v,
-                    "r": req.session
+                    const temp = new Users({
+                        userID: req.body.userID,
+                        password: req.body.password,
+                        firstN: req.body.firstN,
+                        lastN: req.body.lastN,
+                        email: req.body.email
+                    });
+                    temp.save(function (err, temp) {
+                        if (err) return console.error(err);
+                        console.log(temp);
+                    });
+                    let data = {
+                        qs: req.body,
+                        "v": v,
+                        "r": req.session
+                    }
+
+                    Users.find(function (err, Users) {
+                        if (err) return console.error(err);
+                        console.log(Users);
+                    });
+
+                    res.render('login', {data: data});
                 }
 
-                Users.find(function (err, Users) {
-                    if (err) return console.error(err);
-                    console.log(Users);
-                });
-
-                res.render('login', {data: data});
-            }
-
-            if(result === true) {
-                console.log("Exists?:"+result)
-                var v = 2;
-                let data = {
-                    "v": v,
-                    qs: req.query
+                if (result === true) {
+                    console.log("Exists?:" + result)
+                    var v = 2;
+                    let data = {
+                        "v": v,
+                        qs: req.query
+                    }
+                    res.render('signUp', {data: data});
                 }
-                res.render('signUp', {data: data});
-            }
 
-        });
+            });
+        }
     });
 
 
