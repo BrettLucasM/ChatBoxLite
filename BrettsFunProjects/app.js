@@ -333,6 +333,16 @@ app.get('/UserProfile/:id', function (req, res) {
         console.log('Request was made: ' + req.url + ' on ' + dateTime);
     });
 
+    app.get('/aboutUs', function (req, res) {
+
+        let data = {
+            "r": req.session,
+            qs: req.query
+        }
+        res.render('about', {data: data});
+        console.log('Request was made: ' + req.url + ' on ' + dateTime);
+    });
+
     app.get('/signUp', function (req, res) {
         let data = {
             "r": req.session,

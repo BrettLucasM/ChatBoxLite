@@ -30,17 +30,32 @@
         </div>
 
         <form class="centerPostFormNoBor" action="/c" method="post">
-            <label for="userID">Username:</label><br>
-            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="username1"><br><br>
-            <label for="password">password:</label><br>
-            <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder="password"><br><br>
-            <label for="firstN">First Name:</label><br>
-            <input type="text" id="firstN" name="firstN" value="<%= data.qs.firstN%>" placeholder="John"><br><br>
-            <label for="lastN">Last Name:</label><br>
-            <input type="text" id="lastN" name="lastN" value="<%= data.qs.lastN%>" placeholder="Doe"><br><br>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" value="<%= data.qs.email%>" placeholder="JonDoe@uncc.edu"><br><br>
+            <table class="genTable">
+                <tr>
+                    <td>
+                        <label class="SUForm" for="userID">Username:</label><br>
+                        <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder=" username1"><br><br>
+                    </td>
+                    <td>
+                        <label class="SUForm" for="password">Password:</label><br>
+                        <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder=" password"><br><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="SUForm" for="firstN">First Name:</label><br>
+                        <input type="text" id="firstN" name="firstN" value="<%= data.qs.firstN%>" placeholder=" John"><br><br>
+                    </td>
+                    <td>
+                        <label class="SUForm" for="lastN">Last Name:</label><br>
+                        <input type="text" id="lastN" name="lastN" value="<%= data.qs.lastN%>" placeholder=" Doe"><br><br>
+                    </td>
+                </tr>
+            </table>
+            <br><br>
             <input class="button" type="submit" value="Submit">
+            <br><br>
+            <a href="/login">Already have an account?</a>
         </form>
 
 

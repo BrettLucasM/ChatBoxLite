@@ -47,7 +47,7 @@ img{
     margin-right: auto;
     width: 320px;
     background-color: gray;
-    height: 250px;
+    height: 200px;
 }
 
 #mainMenu{
@@ -60,7 +60,7 @@ img{
 
 .menuConnect{
     background-color: gray;
-    height: 45px;
+    height: 65px;
     text-align: center;
     color: black;
 }
@@ -69,7 +69,7 @@ img{
     color: black;
     float: left;
     padding-left: 15px;
-    padding-top: 10px;
+    padding-top: 20px;
     font-size: medium;
     display: block;
     text-align: center;
@@ -139,6 +139,9 @@ li a:hover:not(.menu) {
 .button{
     background-color: gray;
     color: black;
+    border-radius: 12px;
+    height: 34px;
+    width: 70px;
 }
 .centerPic{
     text-align: center;
@@ -211,8 +214,7 @@ select{
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    border: solid gray 3px;
-    width: 250px;
+    width: 300px;
     color: white;
 }
 input{
@@ -331,17 +333,22 @@ li {
     color: black;
     width: 95px;
     height: 65px;
+    border-radius: 12px;
 }
 
 .deleteButton{
     background-color: gray;
     color: black;
+    border-radius: 12px;
+    height: 34px;
+    width: 70px;
 }
 .friendButton{
     background-color: green;
     color: white;
     width: 90px;
     height: 50px;
+    border-radius: 12px;
 }
 .profileBckImage{
     margin: 0;
@@ -448,7 +455,9 @@ li {
     overflow: scroll;
     height: 190px;
 }
-
+.centerTableMessage2::-webkit-scrollbar{
+    display: none;
+}
 .colorText{
     color: green;
 }
@@ -473,9 +482,80 @@ li {
     height: 350px;
     padding: 30px;
 }
+.centerTableAvatar2::-webkit-scrollbar{
+    display: none;
+}
 .error{
     color: red;
     text-align: center;
+}
+input{
+    height: 23px;
+    border-radius: 15px;
+}
+.SUForm{
+    font-size: 20px;
+    color: whitesmoke;
+}
+.genTable{
+    text-align: center;
+    margin-left: auto;
+    color: white;
+}
+.genTable th, td{
+    padding-right: 10px;
+}
+.aboutPara{
+    text-align: center;
+    color: whitesmoke;
+    width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 50px;
+    font-size: 20px;
+    padding-bottom: 30px;
+}
+.aboutImage{
+    border-radius: 75%;
+}
+.aboutPara2{
+    color: whitesmoke;
+    width: 400px;
+    font-size: 20px;
+    padding-right: 200px;
+}
+.genTable2{
+    margin-left: 33%;
+    color: white;
+}
+.resumeButton{
+    margin-left: 200px;
+    display: inline-block;
+    height: 50px;
+    width: 100px;
+    cursor: pointer;
+    transition-duration: 0.7s;
+    border: none;
+}
+.resumeButton:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+.resumeButton2{
+    margin-left: 200px;
+    display: inline-block;
+    height: 50px;
+    width: 100px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border: none;
+}
+.resumeButton2:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+.names{
+    color: red;
 }
 
 

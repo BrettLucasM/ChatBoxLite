@@ -16,15 +16,18 @@
 <main>
     <%- include('partials/nav.ejs') %>
     <div id="content">
-        <img class="menuLogo3" src="assets/images/login2.gif" alt="MovieScope">
-        <h3 class="centerTable">Log On and Connect Globally!</h3>
+        <img class="menuLogo3" src="assets/images/login2.gif" alt="World">
+        <h2 class="centerTable">Log On and Connect Globally!</h2><br><br><br>
 
         <form class="centerPostForm" action="/authenticate" method="post">
-            <label for="userID">Username:</label><br>
-            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder="bmlucas"><br><br>
-            <label for="password">password:</label><br>
-            <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder="password"><br><br>
+            <label class="SUForm" for="userID">Username:</label><br>
+            <input type="text" id="userID" name="userID" value="<%= data.qs.userID%>" placeholder=" username1"><br><br>
+            <label class="SUForm" for="password">password:</label><br>
+            <input type="password" id="password" name="password" value="<%= data.qs.password%>" placeholder=" password"><br><br>
             <input class="button" type="submit" value="Submit">
+            <br><br>
+            <a href="/signUp">Dont have an account?</a>
+            <br>
         </form>
     </div>
 </main>
