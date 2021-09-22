@@ -475,7 +475,9 @@ app.get('/UserProfile/:id', function (req, res) {
     app.post('/c', [
         check('userID')
             .custom(value => !/\s/.test(value))
-            .withMessage('No spaces are allowed in the username')
+            .withMessage('No spaces are allowed in the username'),
+        //check('email').isEmail().withMessage('EMAIL must be a valid Email'),
+        check('password').isStrongPassword().withMessage('PASSWORD must be greater than 8 and contain at least one uppercase letter, one lowercase letter, and one number'),
     ], function (req, res){
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -511,7 +513,7 @@ app.get('/UserProfile/:id', function (req, res) {
                         password: req.body.password,
                         firstN: req.body.firstN,
                         lastN: req.body.lastN,
-                        email: req.body.email
+                        //email: req.body.email
                     });
                     temp.save(function (err, temp) {
                         if (err) return console.error(err);

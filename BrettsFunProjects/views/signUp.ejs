@@ -27,6 +27,12 @@
             <%if(typeof data.errors !== 'undefined' && typeof data.errors[0] !== 'undefined'){%>
             <h3 class="error"><small>* <%=data.errors[0].msg%></small></h3>
             <%}%>
+            <%if(typeof data.errors !== 'undefined' && typeof data.errors[1] !== 'undefined'){%>
+            <h3 class="error"><small>* <%=data.errors[1].msg%></small></h3>
+            <%}%>
+            <%if(typeof data.errors !== 'undefined' && typeof data.errors[2] !== 'undefined'){%>
+            <h3 class="error"><small>* <%=data.errors[2].msg%></small></h3>
+            <%}%>
         </div>
 
         <form class="centerPostFormNoBor" action="/c" method="post">
