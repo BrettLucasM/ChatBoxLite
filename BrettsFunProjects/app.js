@@ -68,6 +68,29 @@ db.once('open', function() {
             //console.log("Messages Deleted Every Nine Hours!");
         //});
 
+        //const temp1 = new Users({
+            //userID: "employer",
+            //password: "1",
+            //firstN: "John",
+            //lastN: "Doe"
+        //});
+        //temp1.save(function (err, temp) {
+            //if (err) return console.error(err);
+            //console.log(temp1);
+        //});
+
+        const temp1 = new UserAccount({
+            ID: "employer",
+            Bio: "I am a ChatBox user!",
+            Work: "",
+            Status: "",
+            Seeking: "",
+            Image: "DefaultSkin.PNG"
+        });
+        temp1.save(function (err, temp) {
+            if (err) return console.error(err);
+            console.log(temp1);
+        });
 
     app.get('/', function (req, res) {
         let data={

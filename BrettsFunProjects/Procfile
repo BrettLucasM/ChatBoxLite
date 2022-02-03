@@ -1,1 +1,1 @@
-web: "web: npm install & node web.js"
+web: node app.js
